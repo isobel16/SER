@@ -27,13 +27,11 @@ def train(
     ),
     epochs: int= typer.Option(2, "-eps", help="Number of epochs"),
     batch_size: int= typer.Option(1000, "-bs", "--batch_size", help="Batch size"),
-    learning_rate: float= typer.Option(0.01, "-lr", "--learning rate", help= "learning rate")   
+    learning_rate: float= typer.Option(0.01, "-lr", "--learning rate", help= "learning rate"),
 ):
     print(f"Running experiment {name}")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    """epochs = 2
-    batch_size = 1000
-    learning_rate = 0.01""" #replaced by typer options above 
+   
 
     # save the parameters!
 
@@ -41,18 +39,15 @@ def train(
     model, optimizer= model1(learning_rate, device)
 
     # torch transforms
-
     ts=transform()
-
+    
+    #dataloaders
     training_dataloader = train_data_loader(batch_size, ts, DATA_DIR)
     validation_dataloader= val_data_loader(batch_size, ts, DATA_DIR)
-
+    
+    #train
     train_model(epochs, training_dataloader, validation_dataloader, model, optimizer, device)
-    # dataloaders
-
-    # train
-
-
+  
 
 @main.command()
 def infer():
