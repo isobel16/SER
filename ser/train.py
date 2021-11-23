@@ -42,7 +42,7 @@ def val_epoch(epoch, validation_dataloader, model, device):
                 f"Val Epoch: {epoch} | Avg Loss: {val_loss:.4f} | Accuracy: {val_acc}"
                 )
 
-def train_model(epochs, training_dataloader, validation_dataloader model, optimizer, device):
+def train_model(epochs, training_dataloader, validation_dataloader, model, optimizer, device):
     for epoch in range(epochs):
         training_batch(epoch, training_dataloader, model, optimizer, device)
         val_epoch(epoch, validation_dataloader, model, optimizer, device)
