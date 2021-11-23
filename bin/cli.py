@@ -12,8 +12,10 @@ from ser.data import train_data_loader, val_data_loader
 from ser.train import train_model
 from ser.transforms import transform
 from dataclasses import dataclass 
+import os
+import dataclasses
 import json
-import datetime
+from datetime import datetime
 
 class EnhancedJSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -54,9 +56,9 @@ def train(
     current_date=datetime.now()
     date_string= current_date.strftime("%d-%b-%Y_(%H:%M:%S)")
     RUN_DIR = PROJECT_ROOT / "run" / name / date_string
-
+    RUN_DIR.mkdir(parents=True, exist_ok=True)
     with open (RUN_DIR / "config.json", "w") as fjson:
-    json.dump(current_params, fjson, cls=EnhancedJSONEncoder)
+        json.dump(current_params, fjson, cls=EnhancedJSONEncoder)
 
     # load model
     model, optimizer= model1(learning_rate, device)
