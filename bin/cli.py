@@ -4,7 +4,14 @@ from torch import optim
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
+from ser.data import train_data_loader
+from ser.model import model1
 from torchvision import datasets, transforms
+from model import model1
+from data import train_data_loader
+from data import val_data_loader
+from train import train_model
+from transforms import transform
 
 import typer
 
@@ -19,28 +26,30 @@ def train(
     name: str = typer.Option(
         ..., "-n", "--name", help="Name of experiment to save under."
     ),
+    epochs: int= typer.Option(2, "-eps", help="Number of epochs"),
+    batch_size: int= typer.Option(1000, "-bs", "--batch_size", help="Batch size"),
+    learning_rate: float= typer.Option(0.01, "-lr", "--learning rate", help= "learning rate")   
 ):
     print(f"Running experiment {name}")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    epochs = 2
+    """epochs = 2
     batch_size = 1000
-    learning_rate = 0.01
+    learning_rate = 0.01""" #replaced by typer options above 
 
     # save the parameters!
 
     # load model
-    model = Net().to(device)
-
-    # setup params
-    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+    model, optimizer= model1(learning_rate),
 
     # torch transforms
-    ts = transforms.Compose(
-        [transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))]
-    )
+
+    ts=transform()
+
+    training_dataloader = train_data_loader(batch_size, ts, DATA_DIR)
+    validation_dataloader= val_data_loader(batch_size, ts, DATA_DIR)
 
     # dataloaders
-    training_dataloader = DataLoader(
+   """ training_dataloader = DataLoader(
         datasets.MNIST(root="../data", download=True, train=True, transform=ts),
         batch_size=batch_size,
         shuffle=True,
@@ -52,10 +61,10 @@ def train(
         batch_size=batch_size,
         shuffle=False,
         num_workers=1,
-    )
+    ) """
 
     # train
-    for epoch in range(epochs):
+    """for epoch in range(epochs):
         for i, (images, labels) in enumerate(training_dataloader):
             images, labels = images.to(device), labels.to(device)
             model.train()
@@ -84,7 +93,7 @@ def train(
 
                 print(
                     f"Val Epoch: {epoch} | Avg Loss: {val_loss:.4f} | Accuracy: {val_acc}"
-                )
+                )"""
 
 
 class Net(nn.Module):
@@ -110,7 +119,7 @@ class Net(nn.Module):
         x = self.dropout2(x)
         x = self.fc2(x)
         output = F.log_softmax(x, dim=1)
-        return output
+        return output 
 
 
 @main.command()
