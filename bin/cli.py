@@ -7,11 +7,10 @@ from torch.utils.data import DataLoader
 from ser.data import train_data_loader
 from ser.model import model1
 from torchvision import datasets, transforms
-from model import model1
-from data import train_data_loader
-from data import val_data_loader
-from train import train_model
-from transforms import transform
+from ser.model import model1
+from ser.data import train_data_loader, val_data_loader
+from ser.train import train_model
+from ser.transforms import transform
 
 import typer
 
@@ -39,7 +38,7 @@ def train(
     # save the parameters!
 
     # load model
-    model, optimizer= model1(learning_rate),
+    model, optimizer= model1(learning_rate)
 
     # torch transforms
 
@@ -48,52 +47,10 @@ def train(
     training_dataloader = train_data_loader(batch_size, ts, DATA_DIR)
     validation_dataloader= val_data_loader(batch_size, ts, DATA_DIR)
 
+    train_model(epochs, training_dataloader, validation_dataloader, model, optimizer, device)
     # dataloaders
-   """ training_dataloader = DataLoader(
-        datasets.MNIST(root="../data", download=True, train=True, transform=ts),
-        batch_size=batch_size,
-        shuffle=True,
-        num_workers=1,
-    )
-
-    validation_dataloader = DataLoader(
-        datasets.MNIST(root=DATA_DIR, download=True, train=False, transform=ts),
-        batch_size=batch_size,
-        shuffle=False,
-        num_workers=1,
-    ) """
 
     # train
-    """for epoch in range(epochs):
-        for i, (images, labels) in enumerate(training_dataloader):
-            images, labels = images.to(device), labels.to(device)
-            model.train()
-            optimizer.zero_grad()
-            output = model(images)
-            loss = F.nll_loss(output, labels)
-            loss.backward()
-            optimizer.step()
-            print(
-                f"Train Epoch: {epoch} | Batch: {i}/{len(training_dataloader)} "
-                f"| Loss: {loss.item():.4f}"
-            )
-            # validate
-            val_loss = 0
-            correct = 0
-            with torch.no_grad():
-                for images, labels in validation_dataloader:
-                    images, labels = images.to(device), labels.to(device)
-                    model.eval()
-                    output = model(images)
-                    val_loss += F.nll_loss(output, labels, reduction="sum").item()
-                    pred = output.argmax(dim=1, keepdim=True)
-                    correct += pred.eq(labels.view_as(pred)).sum().item()
-                val_loss /= len(validation_dataloader.dataset)
-                val_acc = correct / len(validation_dataloader.dataset)
-
-                print(
-                    f"Val Epoch: {epoch} | Avg Loss: {val_loss:.4f} | Accuracy: {val_acc}"
-                )"""
 
 
 class Net(nn.Module):
