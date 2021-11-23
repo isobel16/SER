@@ -4,13 +4,13 @@ from torch import optim
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
-from ser.data import train_data_loader
-from ser.model import model1
+from ser1.data import train_data_loader
+from ser1.model import model1
 from torchvision import datasets, transforms
-from ser.model import model1
-from ser.data import train_data_loader, val_data_loader
-from ser.train import train_model
-from ser.transforms import transform
+from ser1.model import model1
+from ser1.data import train_data_loader, val_data_loader
+from ser1.train import train_model
+from ser1.transforms import transform
 
 import typer
 
