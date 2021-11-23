@@ -1,4 +1,14 @@
-def train_model():
+from pathlib import Path
+import torch
+from torch import optim
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+
+import typer
+
+def train_model(epochs, training_dataloader, validation_dataloader, model, optimizer, device):
     for epoch in range(epochs):
         for i, (images, labels) in enumerate(training_dataloader):
             images, labels = images.to(device), labels.to(device)

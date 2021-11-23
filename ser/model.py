@@ -1,3 +1,13 @@
+from pathlib import Path
+import torch
+from torch import optim
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+
+import typer
+
 
 class Net(nn.Module):
     def __init__(self):
@@ -22,4 +32,11 @@ class Net(nn.Module):
         x = self.dropout2(x)
         x = self.fc2(x)
         output = F.log_softmax(x, dim=1)
-        return output
+        return output 
+
+def model1(learning_rate, device):
+     # load model
+    model = Net().to(device)
+
+    # setup params
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate)

@@ -4,13 +4,13 @@ from torch import optim
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
-from ser1.data import train_data_loader
-from ser1.model import model1
+from ser.data import train_data_loader
+from ser.model import model1
 from torchvision import datasets, transforms
-from ser1.model import model1
-from ser1.data import train_data_loader, val_data_loader
-from ser1.train import train_model
-from ser1.transforms import transform
+from ser.model import model1
+from ser.data import train_data_loader, val_data_loader
+from ser.train import train_model
+from ser.transforms import transform
 
 import typer
 
@@ -38,7 +38,7 @@ def train(
     # save the parameters!
 
     # load model
-    model, optimizer= model1(learning_rate)
+    model, optimizer= model1(learning_rate, device)
 
     # torch transforms
 
@@ -52,31 +52,6 @@ def train(
 
     # train
 
-
-class Net(nn.Module):
-    def __init__(self):
-        super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(1, 32, 3, 1)
-        self.conv2 = nn.Conv2d(32, 64, 3, 1)
-        self.dropout1 = nn.Dropout(0.25)
-        self.dropout2 = nn.Dropout(0.5)
-        self.fc1 = nn.Linear(9216, 128)
-        self.fc2 = nn.Linear(128, 10)
-
-    def forward(self, x):
-        x = self.conv1(x)
-        x = F.relu(x)
-        x = self.conv2(x)
-        x = F.relu(x)
-        x = F.max_pool2d(x, 2)
-        x = self.dropout1(x)
-        x = torch.flatten(x, 1)
-        x = self.fc1(x)
-        x = F.relu(x)
-        x = self.dropout2(x)
-        x = self.fc2(x)
-        output = F.log_softmax(x, dim=1)
-        return output 
 
 
 @main.command()
