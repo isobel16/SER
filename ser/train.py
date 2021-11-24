@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
-
+import os
 import typer
 
 def training_batch(epoch, training_dataloader, model, optimizer, device):
@@ -25,6 +25,7 @@ def training_batch(epoch, training_dataloader, model, optimizer, device):
 
         # validate
 def val_epoch(epoch, validation_dataloader, model, device):
+        best_scores = {'accuracy':0, 'epoch':0}
         val_loss = 0
         correct = 0
         with torch.no_grad():
@@ -41,6 +42,7 @@ def val_epoch(epoch, validation_dataloader, model, device):
             print(
                 f"Val Epoch: {epoch} | Avg Loss: {val_loss:.4f} | Accuracy: {val_acc}"
                 )
+            
 
 def train_model(epochs, training_dataloader, validation_dataloader, model, optimizer, device):
     for epoch in range(epochs):

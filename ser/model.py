@@ -1,3 +1,4 @@
+## model
 from pathlib import Path
 import torch
 from torch import optim
@@ -42,3 +43,4 @@ def model1(learning_rate, device):
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
     return model, optimizer 
+ 
