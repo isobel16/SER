@@ -17,4 +17,4 @@ conda activate ser
 ```bash
 ser --help
 ``` 
-boop
+boop2
